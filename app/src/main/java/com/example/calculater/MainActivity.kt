@@ -60,10 +60,10 @@ fun Screen(modifier: Modifier = Modifier) {
         } else {
             try {
                 val result = eval(equation.value).toString()
-                equation.value = "${equation.value.toString()} = $result"
+                equation.value = result
             }
             catch (e: Exception) {
-                equation.value = "${equation.value.toString()} = Error"
+                equation.value = "Error"
             }
         }
     }
