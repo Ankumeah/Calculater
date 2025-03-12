@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             CalculaterTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MyPagerScreen(innerPadding)
+                    MainScreen(innerPadding)
                 }
             }
         }
@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MyPagerScreen(innerpadding: PaddingValues) {
+fun MainScreen(innerpadding: PaddingValues =  PaddingValues(start=0.0.dp, top=24.0.dp, end=0.0.dp, bottom=0.0.dp)) {
     val pagerState = rememberPagerState(pageCount = { 2 })
     val history = remember { mutableStateOf(mutableListOf<String>()) }
 
@@ -115,128 +115,54 @@ fun Screen(history: MutableState<MutableList<String>>, modifier: Modifier = Modi
             }
 
             Row(modifier = Modifier.weight(0.8f)) {
-                Column(modifier = Modifier.weight(1f)) {
-                    DigitButton(name = "C", color = Color.Red, modifier = Modifier
-                        .weight(1f)
-                        .fillMaxSize()
-                        .padding(5.dp)
+                val complexList: List<List<List<Any>>> = listOf(
+                    listOf(
+                        listOf("C", Color.Red, true),
+                        listOf("7", Color.DarkGray, true),
+                        listOf("4", Color.DarkGray, true),
+                        listOf("1", Color.DarkGray, true),
+                        listOf(".", Color.DarkGray, true)
+                    ),
+                    listOf(
+                        listOf("", Color.Black, false),
+                        listOf("8", Color.DarkGray, true),
+                        listOf("5", Color.DarkGray, true),
+                        listOf("2", Color.DarkGray, true),
+                        listOf("0", Color.DarkGray, true)
+                    ),
+                    listOf(
+                        listOf("", Color.Black, false),
+                        listOf("9", Color.DarkGray, true),
+                        listOf("6", Color.DarkGray, true),
+                        listOf("3", Color.DarkGray, true),
+                        listOf("<", Color.DarkGray, true)
+                    ),
+                    listOf(
+                        listOf("+", Color.Blue, true),
+                        listOf("-", Color.Blue, true),
+                        listOf("*", Color.Blue, true),
+                        listOf("/", Color.Blue, true),
+                        listOf("=", Color.Green, true)
                     )
-                    DigitButton(name = "7", modifier = Modifier
-                        .weight(1f)
-                        .fillMaxSize()
-                        .padding(5.dp)
-                    )
-                    DigitButton(name = "4", modifier = Modifier
-                        .weight(1f)
-                        .fillMaxSize()
-                        .padding(5.dp)
-                    )
-                    DigitButton(name = "1", modifier = Modifier
-                        .weight(1f)
-                        .fillMaxSize()
-                        .padding(5.dp)
-                    )
-                    DigitButton(name = ".", modifier = Modifier
-                        .weight(1f)
-                        .fillMaxSize()
-                        .padding(5.dp)
-                    )
-                }
-                Column(modifier = Modifier.weight(1f)) {
-                    DigitButton(name = "", enabled = false, modifier = Modifier
-                        .weight(1f)
-                        .fillMaxSize()
-                        .padding(5.dp)
-                    )
-                    DigitButton(name = "8", modifier = Modifier
-                        .weight(1f)
-                        .fillMaxSize()
-                        .padding(5.dp)
-                    )
-                    DigitButton(name = "5", modifier = Modifier
-                        .weight(1f)
-                        .fillMaxSize()
-                        .padding(5.dp)
-                    )
-                    DigitButton(name = "2", modifier = Modifier
-                        .weight(1f)
-                        .fillMaxSize()
-                        .padding(5.dp)
-                    )
-                    DigitButton(name = "0", modifier = Modifier
-                        .weight(1f)
-                        .fillMaxSize()
-                        .padding(5.dp)
-                    )
-                }
-                Column(modifier = Modifier.weight(1f)) {
-                    DigitButton(name = "", enabled = false, modifier = Modifier
-                        .weight(1f)
-                        .fillMaxSize()
-                        .padding(5.dp)
-                    )
-                    DigitButton(name = "9", modifier = Modifier
-                        .weight(1f)
-                        .fillMaxSize()
-                        .padding(5.dp)
-                    )
-                    DigitButton(name = "6", modifier = Modifier
-                        .weight(1f)
-                        .fillMaxSize()
-                        .padding(5.dp)
-                    )
-                    DigitButton(name = "3", modifier = Modifier
-                        .weight(1f)
-                        .fillMaxSize()
-                        .padding(5.dp)
-                    )
-                    DigitButton(name = "<", modifier = Modifier
-                        .weight(1f)
-                        .fillMaxSize()
-                        .padding(5.dp)
-                    )
-                }
-                Column(modifier = Modifier.weight(1f)) {
-                    DigitButton(
-                        name = "+",
-                        color = Color.Blue,
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxSize()
-                            .padding(5.dp)
-                    )
-                    DigitButton(
-                        name = "-",
-                        color = Color.Blue,
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxSize()
-                            .padding(5.dp)
-                    )
-                    DigitButton(
-                        name = "*",
-                        color = Color.Blue,
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxSize()
-                            .padding(5.dp)
-                    )
-                    DigitButton(
-                        name = "/",
-                        color = Color.Blue,
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxSize()
-                            .padding(5.dp)
-                    )
-                    DigitButton(
-                        name = "=",
-                        color = Color.Green,
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxSize()
-                            .padding(5.dp)
-                    )
+                )
+                for (column in complexList) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        for (buttonData in column) {
+                            val name = buttonData[0] as String
+                            val color = buttonData[1] as Color
+                            val enabled = buttonData[2] as Boolean
+
+                            DigitButton(
+                                name = name,
+                                color = color,
+                                enabled = enabled,
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxSize()
+                                    .padding(5.dp)
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -245,7 +171,7 @@ fun Screen(history: MutableState<MutableList<String>>, modifier: Modifier = Modi
 
 @Composable
 fun HistoryScreen(modifier: Modifier = Modifier, texts: List<String>) {
-    Column {
+    Column(modifier = Modifier.background(Color.DarkGray)) {
         Column(modifier = Modifier.weight(0.05f)) {
             Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize().background(Color.DarkGray).padding(5.dp).background(Color.Black, shape = RoundedCornerShape(10.dp))) {
                 Text(text = "History", color = Color.White, fontSize = 20.sp)
@@ -276,7 +202,8 @@ fun HistoryScreen(modifier: Modifier = Modifier, texts: List<String>) {
 @Composable
 fun PreviewScreen() {
     CalculaterTheme {
+        MainScreen()
         //Screen()
-        //HistoryScreen(texts = listOf("1","2","3","4","5","6","7","8","9","0","1","2","3","4","5","6","7","8","9","0","1","2","3","4","5","6","7","8","9","0",))
+        //HistoryScreen(texts = listOf("1","2","3","4","5",))
     }
 }
