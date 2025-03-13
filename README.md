@@ -2,11 +2,17 @@
 
 _A simple calculator app built with Jetpack Compose._  
 
+## 📷 Screenshots
+
+![screenshot](screenshots/ss1.jpg)
+
+
 ## 🚀 Features  
 
 ✅ Basic arithmetic operations (+, -, *, /)  
 ✅ Clean and minimal UI  
 ✅ Uses **exp4j** for expression evaluation  
+✅ History tab to store previous equations
 
 ## 🛠️ Installation  
 
