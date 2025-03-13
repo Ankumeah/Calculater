@@ -75,6 +75,10 @@ fun Screen(history: MutableState<MutableList<String>>, modifier: Modifier = Modi
         return ExpressionBuilder(expression).build().evaluate()
     }
 
+    fun Double.toIntOrString(): Any {
+        return if (this % 1 == 0.0) this.toInt() else this.toString()
+    }
+
     fun storeEquation(input: String) {
         if (input != "C" && input != "<" && input != "=") {
             equation.value += input
@@ -84,10 +88,11 @@ fun Screen(history: MutableState<MutableList<String>>, modifier: Modifier = Modi
             equation.value = equation.value.slice(0 until equation.value.length - 1)
         } else {
             try {
-                val result = eval(equation.value).toString()
-                equation.value = result
-
+                val resultAsDouble = eval(equation.value)
+                val result = resultAsDouble.toIntOrString()
                 history.value.add("${equation.value} = $result")
+
+                equation.value = result.toString()
             }
             catch (e: Exception) {
                 equation.value = "Error"
