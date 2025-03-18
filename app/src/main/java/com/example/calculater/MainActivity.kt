@@ -1,6 +1,8 @@
 package com.example.calculater
 
+import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -10,6 +12,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,6 +23,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -30,11 +34,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.calculater.ui.theme.CalculaterTheme
 import net.objecthunter.exp4j.ExpressionBuilder
+import java.math.BigDecimal
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +59,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MainScreen(innerpadding: PaddingValues =  PaddingValues(start=0.0.dp, top=24.0.dp, end=0.0.dp, bottom=0.0.dp)) {
+fun MainScreen(innerPadding: PaddingValues =  PaddingValues(start=0.0.dp, top=24.0.dp, end=0.0.dp, bottom=0.0.dp)) {
     val pagerState = rememberPagerState(pageCount = { 2 })
     val history = remember { mutableStateOf(mutableListOf<String>()) }
 
@@ -61,42 +68,46 @@ fun MainScreen(innerpadding: PaddingValues =  PaddingValues(start=0.0.dp, top=24
         modifier = Modifier.fillMaxSize()
     ) { page ->
         when (page) {
-            0 -> Screen(history = history, modifier = Modifier.fillMaxSize().padding(innerpadding))
-            1 -> HistoryScreen(texts = history.value, modifier = Modifier.padding(innerpadding))
+            0 -> Screen(history = history, modifier = Modifier.fillMaxSize().padding(innerPadding), LocalContext.current)
+            1 -> HistoryScreen(texts = history.value, modifier = Modifier.padding(innerPadding))
         }
     }
 }
 
 @Composable
-fun Screen(history: MutableState<MutableList<String>>, modifier: Modifier = Modifier) {
+fun Screen(history: MutableState<MutableList<String>>, modifier: Modifier = Modifier, context : Context) {
     val equation = remember { mutableStateOf("") }
 
     fun eval(expression: String): Double {
         return ExpressionBuilder(expression).build().evaluate()
     }
 
-    fun Double.toIntOrString(): Any {
-        return if (this % 1 == 0.0) this.toInt() else this.toString()
+    fun BigDecimal.toIntOrString(): Any {
+        return if (this.remainder(BigDecimal.ONE) == 0.0.toBigDecimal()) this.toBigInteger() else this.toString()
     }
 
     fun storeEquation(input: String) {
-        if (input != "C" && input != "<" && input != "=") {
-            equation.value += input
-        } else if (input == "C") {
-            equation.value = ""
-        } else if (input == "<") {
-            equation.value = equation.value.slice(0 until equation.value.length - 1)
-        } else {
-            try {
-                val resultAsDouble = eval(equation.value)
-                val result = resultAsDouble.toIntOrString()
-                history.value.add("${equation.value} = $result")
+        when(input) {
+            "=" -> {
+                if ("+" in equation.value || "-" in equation.value || "*" in equation.value || "/" in equation.value) {
+                    try {
+                        val resultAsDouble = eval(equation.value).toBigDecimal()
+                        println(resultAsDouble)
+                        val result = resultAsDouble.toIntOrString()
+                        history.value.add("${equation.value} = $result")
 
-                equation.value = result.toString()
+                        equation.value = result.toString()
+                    } catch (e: Exception) {
+                        equation.value = "Error"
+                    }
+                }
+                else {
+                    Toast.makeText(context, "Please enter an operator", Toast.LENGTH_SHORT).show()
+                }
             }
-            catch (e: Exception) {
-                equation.value = "Error"
-            }
+            "C" -> equation.value = ""
+            "<" -> equation.value = equation.value.slice(0 until equation.value.length - 1)
+            else -> if (equation.value.length >= 250) Toast.makeText(context, "Equation length cannot exceed 250 characters", Toast.LENGTH_SHORT).show() else equation.value += input
         }
     }
 
@@ -107,19 +118,23 @@ fun Screen(history: MutableState<MutableList<String>>, modifier: Modifier = Modi
 
     Surface(color = Color.Black, modifier = Modifier.fillMaxSize()) {
         Column {
-            Row(modifier = Modifier.weight(0.2f)) {
+            Column(modifier = Modifier.weight(0.5f)) {
                 Box(modifier = Modifier
-                    .fillMaxSize()
-                    .padding(5.dp)
-                    .background(Color.DarkGray, shape = RoundedCornerShape(10.dp))
-                    .padding(10.dp)
-                    .background(Color.Black, shape = RoundedCornerShape(10.dp)),
-                    contentAlignment = Alignment.Center) {
-                    Text(text = equation.value, color = Color.White, fontSize = 30.sp)
+                    .fillMaxWidth()
+                    .padding(15.dp)
+                    .weight(1f)
+                    , contentAlignment = Alignment.BottomEnd) {
+                    Text(
+                        text = equation.value,
+                        color = Color.White,
+                        fontSize = 30.sp,
+                        textAlign = TextAlign.End
+                    )
                 }
+                HorizontalDivider(modifier = Modifier.background(Color.DarkGray))
             }
 
-            Row(modifier = Modifier.weight(0.8f)) {
+            Row(modifier = Modifier.weight(0.5f)) {
                 val complexList: List<List<List<Any>>> = listOf(
                     listOf(
                         listOf("C", Color.Red, true),
@@ -176,16 +191,17 @@ fun Screen(history: MutableState<MutableList<String>>, modifier: Modifier = Modi
 
 @Composable
 fun HistoryScreen(modifier: Modifier = Modifier, texts: List<String>) {
-    Column(modifier = Modifier.background(Color.DarkGray)) {
+    Column(modifier = Modifier.background(Color.Black)) {
+        Spacer(modifier = Modifier.background(Color.Black).weight(0.025f))
         Column(modifier = Modifier.weight(0.05f)) {
-            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize().background(Color.DarkGray).padding(5.dp).background(Color.Black, shape = RoundedCornerShape(10.dp))) {
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize().background(Color.Black).padding(5.dp).background(Color.DarkGray, shape = RoundedCornerShape(10.dp))) {
                 Text(text = "History", color = Color.White, fontSize = 20.sp)
             }
         }
         LazyColumn(
             modifier = Modifier
-                .weight(0.95f)
-                .background(Color.DarkGray),
+                .weight(0.975f)
+                .background(Color.Black),
         ) {
             items(texts) { text ->
                 Text(
@@ -193,7 +209,7 @@ fun HistoryScreen(modifier: Modifier = Modifier, texts: List<String>) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(5.dp)
-                        .background(Color.Black, shape = RoundedCornerShape(10.dp))
+                        .background(Color.DarkGray, shape = RoundedCornerShape(10.dp))
                         .padding(10.dp),
                     color = Color.White,
                     fontSize = 20.sp
@@ -208,7 +224,5 @@ fun HistoryScreen(modifier: Modifier = Modifier, texts: List<String>) {
 fun PreviewScreen() {
     CalculaterTheme {
         MainScreen()
-        //Screen()
-        //HistoryScreen(texts = listOf("1","2","3","4","5",))
     }
 }
