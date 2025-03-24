@@ -27,7 +27,15 @@ _A simple calculator app built with Jetpack Compose._
 
 ## 🤝 Contributing  
 
-This is a **solo project** made for **learning purposes**. While I appreciate any **suggestions**, I will not be implementing code changes from others. However, feel free to suggest **new features**!  
+This project has 2 contributers - 
+
+The owner and developer - [Ankumeah](https://github.com/Ankumeah/) 
+
+**and** 
+
+The designer - Decian Studios ©
+
+While we appreciate any **suggestions**, We will not be implementing code changes from others. However, feel free to suggest **new features**!  
 
 ## ⚖️ License  
 
