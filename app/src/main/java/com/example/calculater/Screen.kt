@@ -1,0 +1,192 @@
+package com.example.calculater
+
+import android.content.Context
+import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import net.objecthunter.exp4j.ExpressionBuilder
+import java.math.BigDecimal
+
+@Composable
+fun Screen(history: MutableState<MutableList<String>>, modifier: Modifier = Modifier, context: Context, navController: NavHostController) {
+    val equation = remember { mutableStateOf("") }
+
+    fun eval(expression: String): Double {
+        return ExpressionBuilder(expression).build().evaluate()
+    }
+
+    fun BigDecimal.toIntOrString(): Any {
+        return if (this.remainder(BigDecimal.ONE) == 0.0.toBigDecimal()) this.toBigInteger() else this.toString()
+    }
+
+    fun storeEquation(input: String) {
+        when (input) {
+            "=" -> {
+                if ("+" in equation.value || "-" in equation.value || "*" in equation.value || "/" in equation.value) {
+                    try {
+                        val resultAsDouble = eval(equation.value).toBigDecimal()
+                        val result = resultAsDouble.toIntOrString()
+                        history.value.add("${equation.value} = $result")
+
+                        equation.value = result.toString()
+                    } catch (e: Exception) {
+                        equation.value = "Error"
+                    }
+                } else {
+                    Toast.makeText(context, "Please enter an operator", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            "C" -> equation.value = ""
+            "<" -> equation.value = equation.value.slice(0 until equation.value.length - 1)
+            else -> if (equation.value.length >= 200) Toast.makeText(context, "Equation length cannot exceed 250 characters", Toast.LENGTH_SHORT).show() else equation.value += input
+        }
+    }
+
+    @Composable
+    fun DigitButton(modifier: Modifier = Modifier, text: String, color: Color = Color.DarkGray) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .clickable { storeEquation(text) }) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(10.dp)
+                    .background(color = color, shape = RoundedCornerShape(24.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = text,
+                    color = Color.White,
+                    fontSize = 30.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = modifier
+                        .background(color = color)
+                )
+            }
+        }
+    }
+
+    Surface(color = Color.Black, modifier = modifier.fillMaxSize()) {
+        Column {
+            Row(modifier = Modifier.padding(top = 24.dp, start = 20.dp, end = 20.dp).weight(0.1f).fillMaxSize()) {
+                Row(modifier = Modifier.weight(0.5f).fillMaxSize()) {
+                    MenuDropdown(navController = navController, currentPage = "Home")
+                }
+            }
+            Column(modifier = Modifier.weight(0.35f)) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(15.dp)
+                        .weight(1f),
+                    contentAlignment = Alignment.BottomEnd
+                ) {
+                    Text(
+                        text = equation.value,
+                        color = Color.White,
+                        fontSize = 30.sp,
+                        textAlign = TextAlign.End
+                    )
+                }
+            }
+
+            HorizontalDivider(modifier = Modifier.background(Color.DarkGray))
+            Row(modifier = Modifier
+                .weight(0.55f)
+                .padding(10.dp)) {
+                Column(modifier = Modifier
+                    .weight(0.75f)
+                    .fillMaxSize()) {
+                    Row(modifier = Modifier
+                        .weight(0.8f)
+                        .fillMaxSize()) {
+                        val buttonList = listOf(
+                            listOf("C", "7", "4", "1"),
+                            listOf("<", "8", "5", "2"),
+                            listOf("/", "9", "6", "3"),
+                        )
+                        for (column in buttonList) {
+                            Column(modifier = Modifier
+                                .weight(0.33f)
+                                .fillMaxSize()
+                            ) {
+                                for (button in column) {
+                                    Box(modifier = Modifier
+                                        .weight(0.2f)
+                                        .fillMaxSize(), contentAlignment = Alignment.Center) {
+                                        when (button){
+                                            "<" -> DigitButton(text = button, color = Color.Green)
+                                            "/" -> DigitButton(text = button, color = Color.Green)
+                                            "C" -> DigitButton(text = button, color = Color.Red)
+                                            else -> DigitButton(text = button)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    Row(modifier = Modifier
+                        .weight(0.2f)
+                        .fillMaxSize()) {
+                        Box(modifier = Modifier
+                            .weight(0.66f)
+                            .fillMaxSize(), contentAlignment = Alignment.Center) {
+                            DigitButton(text = "0")
+                        }
+                        Box(modifier = Modifier
+                            .weight(0.33f)
+                            .fillMaxSize(), contentAlignment = Alignment.Center) {
+                            DigitButton(text = ".")
+                        }
+                    }
+                }
+                Column(modifier = Modifier
+                    .weight(0.25f)
+                    .fillMaxSize()) {
+                    Box(modifier = Modifier
+                        .weight(0.2f)
+                        .fillMaxSize(), contentAlignment = Alignment.Center) {
+                        DigitButton(text = "*", color = Color.Green)
+                    }
+                    Box(modifier = Modifier
+                        .weight(0.2f)
+                        .fillMaxSize(), contentAlignment = Alignment.Center) {
+                        DigitButton(text = "-", color = Color.Green)
+                    }
+                    Box(modifier = Modifier
+                        .weight(0.3f)
+                        .fillMaxSize(), contentAlignment = Alignment.Center) {
+                        DigitButton(text = "+", color = Color.Green)
+                    }
+                    Box(modifier = Modifier
+                        .weight(0.3f)
+                        .fillMaxSize(), contentAlignment = Alignment.Center) {
+                        DigitButton(text = "=", color = Color.Green)
+                    }
+                }
+            }
+        }
+    }
+}
