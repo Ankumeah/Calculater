@@ -21,10 +21,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.calculater.ui.theme.CalculaterTheme
+import com.example.calculater.ui.theme.DarkDarkGray
+import com.example.calculater.ui.theme.DullGreen
+import com.example.calculater.ui.theme.DullRed
 import net.objecthunter.exp4j.ExpressionBuilder
 import java.math.BigDecimal
 
@@ -47,7 +54,7 @@ fun Screen(history: MutableState<MutableList<String>>, modifier: Modifier = Modi
                     try {
                         val resultAsDouble = eval(equation.value).toBigDecimal()
                         val result = resultAsDouble.toIntOrString()
-                        history.value.add("${equation.value} = $result")
+                        history.value.add(0, "${equation.value} = $result")
 
                         equation.value = result.toString()
                     } catch (e: Exception) {
@@ -88,7 +95,7 @@ fun Screen(history: MutableState<MutableList<String>>, modifier: Modifier = Modi
         }
     }
 
-    Surface(color = Color.Black, modifier = modifier.fillMaxSize()) {
+    Surface(color = DarkDarkGray, modifier = modifier.fillMaxSize()) {
         Column {
             Row(modifier = Modifier.padding(top = 24.dp, start = 20.dp, end = 20.dp).weight(0.1f).fillMaxSize()) {
                 Row(modifier = Modifier.weight(0.5f).fillMaxSize()) {
@@ -137,9 +144,9 @@ fun Screen(history: MutableState<MutableList<String>>, modifier: Modifier = Modi
                                         .weight(0.2f)
                                         .fillMaxSize(), contentAlignment = Alignment.Center) {
                                         when (button){
-                                            "<" -> DigitButton(text = button, color = Color.Green)
-                                            "/" -> DigitButton(text = button, color = Color.Green)
-                                            "C" -> DigitButton(text = button, color = Color.Red)
+                                            "<" -> DigitButton(text = button, color = DullGreen)
+                                            "/" -> DigitButton(text = button, color = DullGreen)
+                                            "C" -> DigitButton(text = button, color = DullRed)
                                             else -> DigitButton(text = button)
                                         }
                                     }
@@ -168,25 +175,35 @@ fun Screen(history: MutableState<MutableList<String>>, modifier: Modifier = Modi
                     Box(modifier = Modifier
                         .weight(0.2f)
                         .fillMaxSize(), contentAlignment = Alignment.Center) {
-                        DigitButton(text = "*", color = Color.Green)
+                        DigitButton(text = "*", color = DullGreen)
                     }
                     Box(modifier = Modifier
                         .weight(0.2f)
                         .fillMaxSize(), contentAlignment = Alignment.Center) {
-                        DigitButton(text = "-", color = Color.Green)
+                        DigitButton(text = "-", color = DullGreen)
                     }
                     Box(modifier = Modifier
                         .weight(0.3f)
                         .fillMaxSize(), contentAlignment = Alignment.Center) {
-                        DigitButton(text = "+", color = Color.Green)
+                        DigitButton(text = "+", color = DullGreen)
                     }
                     Box(modifier = Modifier
                         .weight(0.3f)
                         .fillMaxSize(), contentAlignment = Alignment.Center) {
-                        DigitButton(text = "=", color = Color.Green)
+                        DigitButton(text = "=", color = DullGreen)
                     }
                 }
             }
         }
     }
 }
+
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewScreen() {
+//    CalculaterTheme {
+//        val navController = rememberNavController()
+//        val history = remember { mutableStateOf(mutableListOf("1", "2")) }
+//        Screen(history, context = LocalContext.current, navController = navController)
+//    }
+//}

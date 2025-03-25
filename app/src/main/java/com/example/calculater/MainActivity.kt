@@ -49,7 +49,7 @@ fun AppNavHost(navController: NavHostController) {
         startDestination = "Home"
     ) {
         composable("Home") { Screen(history =  history, context = LocalContext.current, navController = navController) }
-        composable("History") { HistoryScreen(texts = history.value, navController = navController) }
+        composable("History") { HistoryScreen(history = history, navController = navController) }
         composable("Options") {Screen(history =  history, context = LocalContext.current, navController = navController) }
         composable("About Us") {Screen(history =  history, context = LocalContext.current, navController = navController) }
     }
@@ -59,10 +59,10 @@ fun NavController.goTo(destination: String) {
     navigate(destination)
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewScreen() {
-    CalculaterTheme {
-        MainScreen()
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewScreen() {
+//    CalculaterTheme {
+//        MainScreen()
+//    }
+//}
