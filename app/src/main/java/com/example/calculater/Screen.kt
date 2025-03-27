@@ -35,10 +35,6 @@ import java.math.BigDecimal
 fun Screen(history: MutableState<MutableList<String>>, modifier: Modifier = Modifier, context: Context, navController: NavHostController) {
     val equation = remember { mutableStateOf("") }
 
-    fun eval(expression: String): Double {
-        return ExpressionBuilder(expression).build().evaluate()
-    }
-
     fun BigDecimal.toIntOrString(): Any {
         return if (this.remainder(BigDecimal.ONE) == 0.0.toBigDecimal()) this.toBigInteger() else this.toString()
     }

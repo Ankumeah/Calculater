@@ -19,6 +19,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.calculater.ui.theme.CalculaterTheme
+import net.objecthunter.exp4j.ExpressionBuilder
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +65,10 @@ fun AppNavHost(navController: NavHostController) {
 
 fun NavController.goTo(destination: String) {
     navigate(destination)
+}
+
+fun eval(expression: String): Double {
+    return ExpressionBuilder(expression).build().evaluate()
 }
 
 //@Preview(showBackground = true)
