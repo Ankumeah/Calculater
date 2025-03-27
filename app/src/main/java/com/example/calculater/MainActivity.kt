@@ -49,7 +49,7 @@ fun AppNavHost(navController: NavHostController) {
     ) {
         composable("Home") { Screen(history =  history, context = LocalContext.current, navController = navController) }
         composable("History") { HistoryScreen(history = history, navController = navController) }
-        composable("Options") {Screen(history =  history, context = LocalContext.current, navController = navController) }
+        composable("Options") { OptionsScreen(navController = navController) }
         composable("About Us") {Screen(history =  history, context = LocalContext.current, navController = navController) }
     }
 }

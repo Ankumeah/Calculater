@@ -93,9 +93,20 @@ fun Screen(history: MutableState<MutableList<String>>, modifier: Modifier = Modi
 
     Surface(color = DarkDarkGray, modifier = modifier.fillMaxSize()) {
         Column {
-            Row(modifier = Modifier.padding(top = 24.dp, start = 20.dp, end = 20.dp).weight(0.1f).fillMaxSize()) {
-                Row(modifier = Modifier.weight(0.5f).fillMaxSize()) {
-                    MenuDropdown(navController = navController, currentPage = "Home")
+            Row(modifier = Modifier
+                .padding(top = 24.dp, start = 20.dp, end = 20.dp)
+                .weight(0.1f)
+                .fillMaxSize()) {
+                Row(modifier = Modifier
+                    .weight(0.1f)
+                    .fillMaxSize()) {
+                    Box(
+                        modifier = Modifier
+                            .weight(0.25f)
+                            .fillMaxWidth()
+                    ) {
+                        MenuDropdown(navController = navController, currentPage = "Home")
+                    }
                 }
             }
             Column(modifier = Modifier.weight(0.35f)) {

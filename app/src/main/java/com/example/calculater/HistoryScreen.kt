@@ -1,5 +1,6 @@
 package com.example.calculater
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -18,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -43,17 +45,26 @@ fun HistoryScreen(modifier: Modifier = Modifier, history: MutableState<MutableLi
                 Text(text = "History", color = DullGreen, fontSize = 50.sp)
             }
             Box(modifier = Modifier.weight(0.25f).fillMaxSize().padding(end = 20.dp), contentAlignment = Alignment.CenterEnd) {
-                Text(
-                    text = "\uD83D\uDDD1\uFE0F",
-                    color = DullGreen,
-                    fontSize = 30.sp,
-                    textAlign = TextAlign.Center,
+                Image(
+                    painter = painterResource(id = R.drawable.clear),
+                    contentDescription = "Clear",
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
                             history.value = mutableListOf<String>()
                         }
                 )
+//                Text(
+//                    text = "\uD83D\uDDD1\uFE0F",
+//                    color = DullGreen,
+//                    fontSize = 30.sp,
+//                    textAlign = TextAlign.Center,
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .clickable {
+//                            history.value = mutableListOf<String>()
+//                        }
+//                )
             }
         }
         LazyColumn(modifier = Modifier.weight(0.9f)) {
@@ -71,12 +82,12 @@ fun HistoryScreen(modifier: Modifier = Modifier, history: MutableState<MutableLi
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewScreen() {
-    CalculaterTheme {
-        val navController = rememberNavController()
-        val fakeHistory = remember { mutableStateOf(mutableListOf("2=2", "2+2=21")) }
-        HistoryScreen(history = fakeHistory, navController = navController)
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewScreen() {
+//    CalculaterTheme {
+//        val navController = rememberNavController()
+//        val fakeHistory = remember { mutableStateOf(mutableListOf("2=2", "2+2=21")) }
+//        HistoryScreen(history = fakeHistory, navController = navController)
+//    }
+//}
