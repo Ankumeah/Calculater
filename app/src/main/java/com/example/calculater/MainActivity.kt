@@ -51,6 +51,14 @@ fun AppNavHost(navController: NavHostController) {
         composable("History") { HistoryScreen(history = history, navController = navController) }
         composable("Options") { OptionsScreen(navController = navController) }
         composable("About Us") {Screen(history =  history, context = LocalContext.current, navController = navController) }
+        
+        composable("Length") { OptionTemplate(navController = navController, option = "Length") }
+        composable("Capacity") { OptionTemplate(navController = navController, option = "Capacity") }
+        composable("Weight") { OptionTemplate(navController = navController, option = "Weight") }
+        composable("Temperature") { OptionTemplate(navController = navController, option = "Temperature") }
+        composable("Area") { OptionTemplate(navController = navController, option = "Area") }
+        composable("Parameter") { OptionTemplate(navController = navController, option = "Parameter") }
+        
     }
 }
 

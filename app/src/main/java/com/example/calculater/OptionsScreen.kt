@@ -36,7 +36,7 @@ import com.example.calculater.ui.theme.DullGreen
 fun OptionCard(modifier: Modifier = Modifier, text: String, image: Int = R.drawable.ic_launcher_foreground, navController: NavHostController) {
     Column(modifier = modifier
         .clickable {
-            navController.goTo("Home")
+            navController.goTo(text)
         }) {
         Box(modifier = Modifier.weight(0.7f).fillMaxSize()) {
             Image(
@@ -83,11 +83,11 @@ fun OptionsScreen(navController: NavHostController, modifier: Modifier = Modifie
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewScreen() {
-    CalculaterTheme {
-        val navController = rememberNavController()
-        OptionsScreen(navController = rememberNavController())
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewScreen() {
+//    CalculaterTheme {
+//        val navController = rememberNavController()
+//        OptionsScreen(navController = rememberNavController())
+//    }
+//}
