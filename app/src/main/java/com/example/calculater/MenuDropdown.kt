@@ -4,6 +4,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -35,7 +36,10 @@ fun MenuDropdown(modifier: Modifier = Modifier, navController: NavHostController
         modifier = modifier
             .fillMaxWidth(0.15f)
             .graphicsLayer(rotationZ = rotationAngle)
-            .clickable {
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            ) {
                 isRotated = !isRotated
                 isExpanded = true
             }

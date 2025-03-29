@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -36,29 +37,29 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(innerPadding: PaddingValues = PaddingValues(start = 0.dp, top = 24.dp, end = 0.dp, bottom = 0.dp)) {
+fun MainScreen(innerPadding: PaddingValues) {
     val navController = rememberNavController()
-    AppNavHost(navController)
+    AppNavHost(navController, innerPadding)
 }
 
 @Composable
-fun AppNavHost(navController: NavHostController) {
+fun AppNavHost(navController: NavHostController, innerPadding: PaddingValues) {
     val history = remember { mutableStateOf(mutableListOf<String>()) }
     NavHost(
         navController = navController,
         startDestination = "Home"
     ) {
-        composable("Home") { Screen(history =  history, context = LocalContext.current, navController = navController) }
-        composable("History") { HistoryScreen(history = history, navController = navController) }
-        composable("Options") { OptionsScreen(navController = navController) }
-        composable("About Us") {Screen(history =  history, context = LocalContext.current, navController = navController) }
+        composable("Home") { Screen(history =  history, context = LocalContext.current, navController = navController, modifier = Modifier.padding(innerPadding)) }
+        composable("History") { HistoryScreen(history = history, navController = navController, modifier = Modifier.padding(innerPadding)) }
+        composable("Options") { OptionsScreen(navController = navController, modifier = Modifier.padding(innerPadding)) }
+        composable("About Us") { inDevScreen(innerPadding = innerPadding, navController = navController) }
         
-        composable("Length") { OptionTemplate(navController = navController, option = "Length") }
-        composable("Capacity") { OptionTemplate(navController = navController, option = "Capacity") }
-        composable("Weight") { OptionTemplate(navController = navController, option = "Weight") }
-        composable("Temperature") { OptionTemplate(navController = navController, option = "Temperature") }
-        composable("Area") { OptionTemplate(navController = navController, option = "Area") }
-        composable("Parameter") { OptionTemplate(navController = navController, option = "Parameter") }
+        composable("Length") { OptionTemplate(navController = navController, option = "Length", modifier = Modifier.padding(innerPadding)) }
+        composable("Capacity") { OptionTemplate(navController = navController, option = "Capacity", modifier = Modifier.padding(innerPadding)) }
+        composable("Weight") { OptionTemplate(navController = navController, option = "Weight", modifier = Modifier.padding(innerPadding)) }
+        composable("Temperature") { OptionTemplate(navController = navController, option = "Temperature", modifier = Modifier.padding(innerPadding)) }
+        composable("Volume") { inDevScreen(innerPadding = innerPadding, navController = navController) }
+        composable("Area") {  inDevScreen(innerPadding = innerPadding, navController = navController) }
         
     }
 }

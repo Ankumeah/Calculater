@@ -3,6 +3,7 @@ package com.example.calculater
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,7 +36,6 @@ fun HistoryScreen(modifier: Modifier = Modifier, history: MutableState<MutableLi
     Column(modifier = modifier
         .fillMaxSize()
         .background(color = DarkDarkGray)
-        .padding(top = 24.dp)
     ) {
         Row(modifier = Modifier.weight(0.1f).fillMaxSize().fillMaxSize()) {
             Box(modifier = Modifier.weight(0.25f).fillMaxSize().padding(start = 20.dp), contentAlignment = Alignment.CenterStart) {
@@ -50,21 +50,13 @@ fun HistoryScreen(modifier: Modifier = Modifier, history: MutableState<MutableLi
                     contentDescription = "Clear",
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {
+                        .clickable(
+                            indication = null,
+                            interactionSource = remember { MutableInteractionSource() }
+                        ) {
                             history.value = mutableListOf<String>()
                         }
                 )
-//                Text(
-//                    text = "\uD83D\uDDD1\uFE0F",
-//                    color = DullGreen,
-//                    fontSize = 30.sp,
-//                    textAlign = TextAlign.Center,
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .clickable {
-//                            history.value = mutableListOf<String>()
-//                        }
-//                )
             }
         }
         LazyColumn(modifier = Modifier.weight(0.9f)) {

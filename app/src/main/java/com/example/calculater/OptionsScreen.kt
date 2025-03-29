@@ -20,6 +20,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.calculater.ui.theme.CalculaterTheme
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
@@ -35,6 +36,7 @@ import com.example.calculater.ui.theme.DullGreen
 @Composable
 fun OptionCard(modifier: Modifier = Modifier, text: String, image: Int = R.drawable.ic_launcher_foreground, navController: NavHostController) {
     Column(modifier = modifier
+        .clip(shape = RoundedCornerShape(10.dp))
         .clickable {
             navController.goTo(text)
         }) {
@@ -52,8 +54,8 @@ fun OptionCard(modifier: Modifier = Modifier, text: String, image: Int = R.drawa
 }
 
 @Composable
-fun OptionsScreen(navController: NavHostController, modifier: Modifier = Modifier.fillMaxSize()) {
-    Column(modifier = modifier.background(color = DarkDarkGray).padding(top = 24.dp)) {
+fun OptionsScreen(navController: NavHostController, modifier: Modifier = Modifier) {
+    Column(modifier = modifier.fillMaxSize().background(color = DarkDarkGray)) {
         Row(modifier = Modifier.weight(0.1f).fillMaxSize().fillMaxSize()) {
             Box(modifier = Modifier.weight(0.25f).fillMaxSize().padding(start = 20.dp), contentAlignment = Alignment.CenterStart) {
                 MenuDropdown(navController = navController, currentPage = "Options", color = DullGreen, modifier = Modifier.fillMaxWidth())
@@ -67,14 +69,22 @@ fun OptionsScreen(navController: NavHostController, modifier: Modifier = Modifie
             val options = listOf(
                 listOf("Length", "Capacity"),
                 listOf("Weight", "Temperature"),
-                listOf("Area", "Parameter")
+                listOf("Volume", "Area")
             )
             for (i in options) {
                 Row(modifier = Modifier.weight(1f/options.size).fillMaxSize()) {
                     for (option in i) {
                         Box(modifier = Modifier.weight(1f/i.size).fillMaxSize().padding(10.dp)) {
-                            val path = LocalContext.current.resources.getIdentifier(option.lowercase(), "drawable", LocalContext.current.packageName)
-                            OptionCard(text = option, image = path, navController = navController)
+                            val image: Int = when (option) {
+                                "Length" -> R.drawable.length
+                                "Capacity" -> R.drawable.capacity
+                                "Weight" -> R.drawable.weight
+                                "Temperature" -> R.drawable.temperature
+                                "Volume" -> R.drawable.volume
+                                "Area" -> R.drawable.area
+                                else -> R.drawable.ic_launcher_foreground
+                            }
+                            OptionCard(text = option, image = image, navController = navController)
                         }
                     }
                 }

@@ -20,6 +20,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -28,7 +29,6 @@ import androidx.navigation.NavHostController
 import com.example.calculater.ui.theme.DarkDarkGray
 import com.example.calculater.ui.theme.DullGreen
 import com.example.calculater.ui.theme.DullRed
-import net.objecthunter.exp4j.ExpressionBuilder
 import java.math.BigDecimal
 
 @Composable
@@ -67,12 +67,13 @@ fun Screen(history: MutableState<MutableList<String>>, modifier: Modifier = Modi
     fun DigitButton(modifier: Modifier = Modifier, text: String, color: Color = Color.DarkGray) {
         Box(modifier = Modifier
             .fillMaxSize()
+            .padding(10.dp)
+            .clip(RoundedCornerShape(24.dp))
             .clickable { storeEquation(text) }) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(10.dp)
-                    .background(color = color, shape = RoundedCornerShape(24.dp)),
+                    .background(color = color),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
