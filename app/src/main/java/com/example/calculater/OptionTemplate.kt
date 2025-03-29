@@ -36,7 +36,7 @@ import com.example.calculater.ui.theme.DullGreen
 // could not be transported without giving it many extra argument,
 // Im sure that it could have been resolved with some foresight which I was just incapable of.
 // It's very hard to realise your mistakes when you are the only programmer in a project
-// and while I.m at it, I'd also like to apologize for my terrabel code,
+// and while I.m at it, I'd also like to apologize for my terrible code,
 // in truth this isn't my first android dev project but my rather my first android dev file.
 // Everything you see here is the code I learned along the way so that's why there are many bad practices
 // If I could rewrite it would have made it better although I'm not sure if that would have been good either
@@ -77,32 +77,17 @@ fun OptionTemplate(option: String, navController: NavHostController, modifier: M
     val inputSelectedMetric = remember { mutableStateOf(metrics[0]) }
     val outputSelectedMetric = remember { mutableStateOf(metrics[1]) }
 
-    Column(modifier = modifier
-        .fillMaxSize()
-        .background(color = DarkDarkGray)) {
-        Row(modifier = Modifier
-            .weight(0.1f)
-            .fillMaxSize()
-            .fillMaxSize()) {
+    Column(modifier = modifier.fillMaxSize().background(color = DarkDarkGray)) {
+        Row(modifier = Modifier.weight(0.1f).fillMaxSize()) {
             Box(
-                modifier = Modifier
-                    .weight(0.25f)
-                    .fillMaxSize()
-                    .padding(start = 20.dp),
+                modifier = Modifier.weight(0.25f).fillMaxSize().padding(start = 20.dp),
                 contentAlignment = Alignment.CenterStart
             ) {
-                MenuDropdown(
-                    navController = navController,
-                    currentPage = option,
-                    color = DullGreen,
-                    modifier = Modifier.fillMaxWidth()
+                MenuDropdown(navController = navController, currentPage = option, color = DullGreen, modifier = Modifier.fillMaxWidth()
                 )
             }
             Box(
-                modifier = Modifier
-                    .weight(0.75f)
-                    .fillMaxSize()
-                    .padding(start = 30.dp, end = 5.dp),
+                modifier = Modifier.weight(0.75f).fillMaxSize().padding(start = 30.dp, end = 5.dp),
                 contentAlignment = Alignment.CenterStart
             ) {
                 Text(text = option, color = DullGreen, fontSize = 40.sp, textAlign = TextAlign.Start, modifier = Modifier.fillMaxWidth())
@@ -111,96 +96,62 @@ fun OptionTemplate(option: String, navController: NavHostController, modifier: M
         Column(modifier = Modifier
             .weight(0.9f)
             .fillMaxSize()) {
-                Column(modifier = Modifier
-                    .weight(0.2f)
-                    .fillMaxSize()) {
-                    Box(modifier = Modifier
-                        .weight(0.4f)
-                        .fillMaxSize(),
+                Column(modifier = Modifier.weight(0.2f).fillMaxSize()) {
+                    Box(modifier = Modifier.weight(0.4f).fillMaxSize(),
                         contentAlignment = Alignment.CenterStart) {
                         MetricSelectorDropdown(options = metrics, selectedOption = inputSelectedMetric, modifier = Modifier.padding(10.dp))
                     }
-                    Row(modifier = Modifier
-                        .weight(0.6f)
-                        .fillMaxSize()) {
+                    Row(modifier = Modifier.weight(0.6f).fillMaxSize()) {
 
                     }
                 }
 
             HorizontalDivider(modifier = Modifier.background(color = Color.DarkGray))
 
-            Column(modifier = Modifier
-                .weight(0.2f)
-                .fillMaxSize()) {
-                Box(modifier = Modifier
-                    .weight(0.4f)
-                    .fillMaxSize(),
+            Column(modifier = Modifier.weight(0.2f).fillMaxSize()) {
+                Box(modifier = Modifier.weight(0.4f).fillMaxSize(),
                     contentAlignment = Alignment.CenterStart) {
                     MetricSelectorDropdown(options = metrics, selectedOption = outputSelectedMetric, modifier = Modifier.padding(10.dp))
                 }
-                Row(modifier = Modifier
-                    .weight(0.6f)
-                    .fillMaxSize()) {
+                Row(modifier = Modifier.weight(0.6f).fillMaxSize()) {
 
                 }
             }
 
             HorizontalDivider(modifier = Modifier.background(color = Color.DarkGray))
 
-            Row(modifier = Modifier
-                .weight(0.5f)
-                .fillMaxSize()) {
-                Column(modifier = Modifier
-                    .weight(0.75f)
-                    .fillMaxSize()) {
-                    Column(modifier = Modifier
-                        .weight(0.75f)
-                        .fillMaxSize()) {
+            Row(modifier = Modifier.weight(0.5f).fillMaxSize()) {
+                Column(modifier = Modifier.weight(0.75f).fillMaxSize()) {
+                    Column(modifier = Modifier.weight(0.75f).fillMaxSize()) {
                         val buttonList = listOf(
                             listOf("7", "8", "9"),
                             listOf("4", "5", "6"),
                             listOf("1", "2", "3")
                         )
                         for (i in buttonList) {
-                            Row(modifier = Modifier
-                                .weight(0.33f)
-                                .fillMaxSize()) {
+                            Row(modifier = Modifier.weight(0.33f).fillMaxSize()) {
                                 for (button in i) {
-                                    Box(modifier = Modifier
-                                        .weight(0.33f)
-                                        .fillMaxSize()) {
+                                    Box(modifier = Modifier.weight(0.33f).fillMaxSize()) {
                                         DigitButton(text = button)
                                     }
                                 }
                             }
                         }
                     }
-                    Row(modifier = Modifier
-                        .weight(0.25f)
-                        .fillMaxSize()) {
-                        Box(modifier = Modifier
-                            .weight(0.66f)
-                            .fillMaxSize()) {
+                    Row(modifier = Modifier.weight(0.25f).fillMaxSize()) {
+                        Box(modifier = Modifier.weight(0.66f).fillMaxSize()) {
                             DigitButton(text = "0")
                         }
-                        Box(modifier = Modifier
-                            .weight(0.33f)
-                            .fillMaxSize()) {
+                        Box(modifier = Modifier.weight(0.33f).fillMaxSize()) {
                             DigitButton(text = ".")
                         }
                     }
                 }
-                Column(modifier = Modifier
-                    .weight(0.25f)
-                    .fillMaxSize()) {
-                    Box(modifier = Modifier
-                        .weight(0.5f)
-                        .fillMaxSize()) {
+                Column(modifier = Modifier.weight(0.25f).fillMaxSize()) {
+                    Box(modifier = Modifier.weight(0.5f).fillMaxSize()) {
                         DigitButton(text = "C", color = DullGreen)
                     }
-                    Box(modifier = Modifier
-                        .weight(0.5f)
-                        .fillMaxSize()) {
+                    Box(modifier = Modifier.weight(0.5f).fillMaxSize()) {
                         DigitButton(text = "<", color = DullGreen)
                     }
                 }
