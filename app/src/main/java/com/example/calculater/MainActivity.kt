@@ -54,10 +54,10 @@ fun AppNavHost(navController: NavHostController, innerPadding: PaddingValues) {
         composable("Options") { OptionsScreen(navController = navController, modifier = Modifier.padding(innerPadding)) }
         composable("About Us") { inDevScreen(innerPadding = innerPadding, navController = navController) }
         
-        composable("Length") { OptionTemplate(navController = navController, option = "Length", modifier = Modifier.padding(innerPadding)) }
-        composable("Capacity") { OptionTemplate(navController = navController, option = "Capacity", modifier = Modifier.padding(innerPadding)) }
-        composable("Weight") { OptionTemplate(navController = navController, option = "Weight", modifier = Modifier.padding(innerPadding)) }
-        composable("Temperature") { OptionTemplate(navController = navController, option = "Temperature", modifier = Modifier.padding(innerPadding)) }
+        composable("Length") { OptionTemplate(navController = navController, option = "Length", modifier = Modifier.padding(innerPadding), context = LocalContext.current) }
+        composable("Capacity") { OptionTemplate(navController = navController, option = "Capacity", modifier = Modifier.padding(innerPadding), context = LocalContext.current) }
+        composable("Weight") { OptionTemplate(navController = navController, option = "Weight", modifier = Modifier.padding(innerPadding), context = LocalContext.current) }
+        composable("Temperature") { OptionTemplate(navController = navController, option = "Temperature", modifier = Modifier.padding(innerPadding), context = LocalContext.current) }
         composable("Volume") { inDevScreen(innerPadding = innerPadding, navController = navController) }
         composable("Area") {  inDevScreen(innerPadding = innerPadding, navController = navController) }
         

@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 import com.example.calculater.ui.theme.DarkDarkGray
 
 @Composable
-fun MetricSelectorDropdown(options: List<String>, selectedOption: MutableState<String>, modifier: Modifier = Modifier) {
+fun MetricSelectorDropdown(options: List<String>, selectedOption: MutableState<String>, modifier: Modifier = Modifier, function: () -> Unit = {}) {
     val isExpanded = remember { mutableStateOf(false) }
 
     Box(modifier = modifier
@@ -44,6 +44,7 @@ fun MetricSelectorDropdown(options: List<String>, selectedOption: MutableState<S
                 onClick = {
                     isExpanded.value = false
                     selectedOption.value = option
+                    function()
                 }
             )
         }

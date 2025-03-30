@@ -50,7 +50,7 @@ fun Screen(history: MutableState<MutableList<String>>, modifier: Modifier = Modi
 
                         equation.value = result.toString()
                     } catch (e: Exception) {
-                        equation.value = "Error"
+                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     Toast.makeText(context, "Please enter an operator", Toast.LENGTH_SHORT).show()
@@ -59,7 +59,7 @@ fun Screen(history: MutableState<MutableList<String>>, modifier: Modifier = Modi
 
             "C" -> equation.value = ""
             "<" -> equation.value = equation.value.slice(0 until equation.value.length - 1)
-            else -> if (equation.value.length >= 200) Toast.makeText(context, "Equation length cannot exceed 250 characters", Toast.LENGTH_SHORT).show() else equation.value += input
+            else -> if (equation.value.length >= 180) Toast.makeText(context, "Equation length cannot exceed 180 characters", Toast.LENGTH_SHORT).show() else equation.value += input
         }
     }
 
