@@ -22,10 +22,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.calculater.ui.theme.CalculaterTheme
 import com.example.calculater.ui.theme.DarkDarkGray
 import com.example.calculater.ui.theme.DullGreen
 import com.example.calculater.ui.theme.DullRed
@@ -90,21 +94,11 @@ fun Screen(history: MutableState<MutableList<String>>, modifier: Modifier = Modi
 
     Surface(color = DarkDarkGray, modifier = modifier.fillMaxSize()) {
         Column {
-            Row(modifier = Modifier
-                .padding(top = 24.dp, start = 20.dp, end = 20.dp)
-                .weight(0.1f)
-                .fillMaxSize()) {
-                Row(modifier = Modifier
-                    .weight(0.1f)
-                    .fillMaxSize()) {
-                    Box(
-                        modifier = Modifier
-                            .weight(0.25f)
-                            .fillMaxWidth()
-                    ) {
-                        MenuDropdown(navController = navController, currentPage = "Home")
+            Row(modifier = Modifier.weight(0.1f).fillMaxSize()) {
+                    Box(modifier = Modifier.weight(0.25f).fillMaxSize().padding(start = 20.dp), contentAlignment = Alignment.CenterStart) {
+                        MenuDropdown(navController = navController, currentPage = "Home", color = DullGreen, modifier = Modifier.fillMaxWidth())
                     }
-                }
+                    Box(modifier = Modifier.weight(0.75f).fillMaxSize()) {}
             }
             Column(modifier = Modifier.weight(0.35f)) {
                 Box(

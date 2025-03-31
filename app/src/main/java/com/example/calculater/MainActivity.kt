@@ -57,7 +57,7 @@ fun AppNavHost(navController: NavHostController, innerPadding: PaddingValues) {
         composable("Length") { OptionTemplate(navController = navController, option = "Length", modifier = Modifier.padding(innerPadding), context = LocalContext.current) }
         composable("Capacity") { OptionTemplate(navController = navController, option = "Capacity", modifier = Modifier.padding(innerPadding), context = LocalContext.current) }
         composable("Weight") { OptionTemplate(navController = navController, option = "Weight", modifier = Modifier.padding(innerPadding), context = LocalContext.current) }
-        composable("Temperature") { OptionTemplate(navController = navController, option = "Temperature", modifier = Modifier.padding(innerPadding), context = LocalContext.current) }
+        composable("Temp") { OptionTemplate(navController = navController, option = "Temp", modifier = Modifier.padding(innerPadding), context = LocalContext.current) }
         composable("Volume") { inDevScreen(innerPadding = innerPadding, navController = navController) }
         composable("Area") {  inDevScreen(innerPadding = innerPadding, navController = navController) }
         

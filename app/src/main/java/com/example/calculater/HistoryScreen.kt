@@ -42,7 +42,7 @@ fun HistoryScreen(modifier: Modifier = Modifier, history: MutableState<MutableLi
                 MenuDropdown(navController = navController, currentPage = "History", color = DullGreen, modifier = Modifier.fillMaxWidth())
             }
             Box(modifier = Modifier.weight(0.5f).fillMaxSize().padding(horizontal = 10.dp), contentAlignment = Alignment.Center) {
-                Text(text = "History", color = DullGreen, fontSize = 50.sp)
+                Text(text = "History", color = DullGreen, fontSize = 35.sp)
             }
             Box(modifier = Modifier.weight(0.25f).fillMaxSize().padding(end = 20.dp), contentAlignment = Alignment.CenterEnd) {
                 Image(

@@ -49,7 +49,7 @@ fun OptionTemplate(option: String, navController: NavHostController, modifier: M
         "Length" -> listOf("mm", "cm", "m", "km")
         "Capacity" -> listOf("ml", "cl", "l", "kl")
         "Weight" -> listOf("mg", "cg", "g", "kg")
-        "Temperature" -> listOf("C", "F", "K")
+        "Temp" -> listOf("C", "F", "K")
         //"Volume" -> listOf(/*TODO*/)
         //"Area" -> listOf(/*TODO*/)
         else -> listOf("mm", "cm", "m", "km")
@@ -65,7 +65,7 @@ fun calculateConversion() {
         "Length" to mapOf("mm" to 1.0, "cm" to 10.0, "m" to 1000.0, "km" to 1_000_000.0),
         "Capacity" to mapOf("ml" to 1.0, "cl" to 10.0, "l" to 1000.0, "kl" to 1_000_000.0),
         "Weight" to mapOf("mg" to 1.0, "cg" to 10.0, "g" to 1000.0, "kg" to 1_000_000.0),
-        "Temperature" to mapOf("C" to 1.0, "F" to 1.8, "K" to 1.0)
+        "Temp" to mapOf("C" to 1.0, "F" to 1.8, "K" to 1.0)
     )
 
     try {
@@ -82,64 +82,61 @@ fun calculateConversion() {
         val baseValue = inputValue * inputFactor
         val result = baseValue / outputFactor
 
-        outputText.value = if (option == "Temperature") {
+        outputText.value = if (option == "Temp") {
             when {
-                inputSelectedMetric.value == "C" && outputSelectedMetric.value == "F" ->
-                    ((inputValue * 9 / 5) + 32).toString()
-
-                inputSelectedMetric.value == "F" && outputSelectedMetric.value == "C" ->
-                    ((inputValue - 32) * 5 / 9).toString()
-
-                inputSelectedMetric.value == "C" && outputSelectedMetric.value == "K" ->
-                    (inputValue + 273.15).toString()
-
-                inputSelectedMetric.value == "K" && outputSelectedMetric.value == "C" ->
-                    (inputValue - 273.15).toString()
-
+                inputSelectedMetric.value == "C" && outputSelectedMetric.value == "F" -> ((inputValue * 9 / 5) + 32).toString()
+                inputSelectedMetric.value == "F" && outputSelectedMetric.value == "C" -> ((inputValue - 32) * 5 / 9).toString()
+                inputSelectedMetric.value == "C" && outputSelectedMetric.value == "K" -> (inputValue + 273.15).toString()
+                inputSelectedMetric.value == "K" && outputSelectedMetric.value == "C" -> (inputValue - 273.15).toString()
                 else -> result.toString()
             }
-        } else {
+        }
+        else if (option == "Volume") {
+            "hi"
+        }
+        else {
             result.toString()
         }
-    } catch (e: Exception) {
+    }
+    catch (e: Exception) {
         outputText.value = "Invalid Input"
     }
 }
 
 
-    @Composable
-    fun DigitButton(modifier: Modifier = Modifier, text: String, color: Color = Color.DarkGray) {
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(10.dp)
-                .clip(RoundedCornerShape(24.dp))
-                .background(color = color)
-                .clickable {
-                    when (text) {
-                        "C" -> inputText.value = ""
-                        "<" -> inputText.value = inputText.value.slice(0 until inputText.value.length - 1)
-                        else -> {
-                            if (inputText.value.length != 21) {
-                                inputText.value += text
-                            }
-                            else {
-                                Toast.makeText(context, "Cannot enter more then 20 characters", Toast.LENGTH_SHORT).show()
-                            }
+@Composable
+fun DigitButton(modifier: Modifier = Modifier, text: String, color: Color = Color.DarkGray) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(10.dp)
+            .clip(RoundedCornerShape(24.dp))
+            .background(color = color)
+            .clickable {
+                when (text) {
+                    "C" -> inputText.value = ""
+                    "<" -> inputText.value = inputText.value.slice(0 until inputText.value.length - 1)
+                    else -> {
+                        if (inputText.value.length != 21) {
+                            inputText.value += text
+                        }
+                        else {
+                            Toast.makeText(context, "Cannot enter more then 20 characters", Toast.LENGTH_SHORT).show()
                         }
                     }
-                    calculateConversion()
-                },
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = text,
-                color = Color.White,
-                fontSize = 30.sp,
-                textAlign = TextAlign.Center
-            )
-        }
+                }
+                calculateConversion()
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = text,
+            color = Color.White,
+            fontSize = 30.sp,
+             textAlign = TextAlign.Center
+        )
     }
+}
 
     Column(modifier = modifier.fillMaxSize().background(color = DarkDarkGray)) {
         Row(modifier = Modifier.weight(0.1f).fillMaxSize()) {
@@ -153,31 +150,69 @@ fun calculateConversion() {
                 modifier = Modifier.weight(0.75f).fillMaxSize().padding(start = 30.dp, end = 5.dp),
                 contentAlignment = Alignment.CenterStart
             ) {
-                Text(text = option, color = DullGreen, fontSize = 40.sp, textAlign = TextAlign.Start, modifier = Modifier.fillMaxWidth())
+                Text(text = option, color = DullGreen, fontSize = 35.sp, textAlign = TextAlign.Start, modifier = Modifier.fillMaxWidth())
             }
         }
-        Column(modifier = Modifier
-            .weight(0.9f)
-            .fillMaxSize()) {
+        Column(modifier = Modifier.weight(0.9f).fillMaxSize()) {
+            if (option == "Volume") {
+                Column(modifier = Modifier.weight(0.4f).fillMaxSize()) {
+                    Row(modifier =  Modifier.weight(0.5f).fillMaxSize()){
+
+                    }
+                    Row(modifier = Modifier.weight(0.5f).fillMaxSize()){
+
+                    }
+                }
+            }
+            else {
                 Column(modifier = Modifier.weight(0.2f).fillMaxSize()) {
-                    Box(modifier = Modifier.weight(0.4f).fillMaxSize(),
-                        contentAlignment = Alignment.CenterStart) {
-                        MetricSelectorDropdown(options = metrics, selectedOption = inputSelectedMetric, modifier = Modifier.padding(10.dp), function = { calculateConversion() })
+                    Box(
+                        modifier = Modifier.weight(0.4f).fillMaxSize(),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        MetricSelectorDropdown(
+                            options = metrics,
+                            selectedOption = inputSelectedMetric,
+                            modifier = Modifier.padding(10.dp),
+                            function = { calculateConversion() })
                     }
-                    Box(modifier = Modifier.weight(0.6f).fillMaxSize().padding(10.dp), contentAlignment = Alignment.BottomEnd) {
-                        Text(text = inputText.value, textAlign = TextAlign.End, color = Color.White, fontSize = 24.sp, modifier = Modifier.fillMaxWidth())
+                    Box(
+                        modifier = Modifier.weight(0.6f).fillMaxSize().padding(10.dp),
+                        contentAlignment = Alignment.BottomEnd
+                    ) {
+                        Text(
+                            text = inputText.value,
+                            textAlign = TextAlign.End,
+                            color = Color.White,
+                            fontSize = 24.sp,
+                            modifier = Modifier.fillMaxWidth()
+                        )
                     }
                 }
 
-            HorizontalDivider(modifier = Modifier.background(color = Color.DarkGray))
 
-            Column(modifier = Modifier.weight(0.2f).fillMaxSize()) {
-                Box(modifier = Modifier.weight(0.4f).fillMaxSize(),
-                    contentAlignment = Alignment.CenterStart) {
-                    MetricSelectorDropdown(options = metrics, selectedOption = outputSelectedMetric, modifier = Modifier.padding(10.dp), function = { calculateConversion() })
-                }
-                Row(modifier = Modifier.weight(0.6f).fillMaxSize()) {
-                    Text(text = outputText.value, textAlign = TextAlign.End, color = Color.White, fontSize = 24.sp, modifier = Modifier.fillMaxWidth())
+                HorizontalDivider(modifier = Modifier.background(color = Color.DarkGray))
+
+                Column(modifier = Modifier.weight(0.2f).fillMaxSize()) {
+                    Box(
+                        modifier = Modifier.weight(0.4f).fillMaxSize(),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        MetricSelectorDropdown(
+                            options = metrics,
+                            selectedOption = outputSelectedMetric,
+                            modifier = Modifier.padding(10.dp),
+                            function = { calculateConversion() })
+                    }
+                    Row(modifier = Modifier.weight(0.6f).fillMaxSize()) {
+                        Text(
+                            text = outputText.value,
+                            textAlign = TextAlign.End,
+                            color = Color.White,
+                            fontSize = 24.sp,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
                 }
             }
 
@@ -227,6 +262,6 @@ fun calculateConversion() {
 @Composable
 fun PreviewScreen() {
     CalculaterTheme {
-        OptionTemplate(navController = rememberNavController(), option = "Capacity", context = LocalContext.current)
+        OptionTemplate(navController = rememberNavController(), option = "Volume", context = LocalContext.current)
     }
 }
