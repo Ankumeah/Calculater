@@ -36,14 +36,14 @@ fun OptionCard(modifier: Modifier = Modifier, text: String, image: Int = R.drawa
                 navController.goTo(text)
             }
         }) {
-        Box(modifier = Modifier.weight(0.7f).fillMaxSize()) {
+        Box(modifier = Modifier.weight(0.6f).fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
             Image(
                 painter = painterResource(id = image),
                 contentDescription = text,
-                modifier = Modifier.fillMaxSize().padding(horizontal = 15.dp)
+                modifier = Modifier.padding(horizontal = 15.dp)
             )
         }
-        Box(modifier = Modifier.weight(0.3f).fillMaxSize(), contentAlignment = Alignment.Center) {
+        Box(modifier = Modifier.weight(0.4f).fillMaxSize(), contentAlignment = Alignment.Center) {
             Text(text = text, textAlign = TextAlign.Center, color = Color.White, fontSize = 16.sp)
         }
     }
@@ -65,10 +65,11 @@ fun OptionsScreen(navController: NavHostController, modifier: Modifier = Modifie
             val options = listOf(
                 listOf("Length", "Capacity", "Weight"),
                 listOf("Temp", "Volume", "Area"),
+                listOf(),
                 listOf()
             )
             for (i in options) {
-                Row(modifier = Modifier.weight(1f/options.size).fillMaxSize()) {
+                Row(modifier = Modifier.weight(1f/options.size).fillMaxSize().padding(vertical = 10.dp)) {
                     for (option in i) {
                         Box(modifier = Modifier.weight(1f/i.size).fillMaxSize().padding(10.dp)) {
                             val image: Int = when (option) {
@@ -89,11 +90,11 @@ fun OptionsScreen(navController: NavHostController, modifier: Modifier = Modifie
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewScreen() {
-//    CalculaterTheme {
-//        val navController = rememberNavController()
-//        OptionsScreen(navController = rememberNavController())
-//    }
-//}
+@Preview(showBackground = true)
+@Composable
+fun PreviewScreen() {
+    CalculaterTheme {
+        val navController = rememberNavController()
+        OptionsScreen(navController = rememberNavController())
+    }
+}

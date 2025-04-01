@@ -258,10 +258,10 @@ fun DigitButton(modifier: Modifier = Modifier, text: String, color: Color = Colo
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewScreen() {
-    CalculaterTheme {
-        OptionTemplate(navController = rememberNavController(), option = "Volume", context = LocalContext.current)
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewScreen() {
+//    CalculaterTheme {
+//        OptionTemplate(navController = rememberNavController(), option = "Volume", context = LocalContext.current)
+//    }
+//}
