@@ -52,7 +52,7 @@ fun AppNavHost(navController: NavHostController, innerPadding: PaddingValues) {
         composable("Home") { Screen(history =  history, context = LocalContext.current, navController = navController, modifier = Modifier.padding(innerPadding)) }
         composable("History") { HistoryScreen(history = history, navController = navController, modifier = Modifier.padding(innerPadding)) }
         composable("Options") { OptionsScreen(navController = navController, modifier = Modifier.padding(innerPadding)) }
-        composable("About Us") { inDevScreen(innerPadding = innerPadding, navController = navController) }
+        composable("About Us") { AboutUsScreen(navController = navController, modifier = Modifier.padding(innerPadding)) }
         
         composable("Length") { OptionTemplate(navController = navController, option = "Length", modifier = Modifier.padding(innerPadding), context = LocalContext.current) }
         composable("Capacity") { OptionTemplate(navController = navController, option = "Capacity", modifier = Modifier.padding(innerPadding), context = LocalContext.current) }

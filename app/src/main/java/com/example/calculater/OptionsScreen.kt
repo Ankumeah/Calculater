@@ -90,11 +90,11 @@ fun OptionsScreen(navController: NavHostController, modifier: Modifier = Modifie
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewScreen() {
-    CalculaterTheme {
-        val navController = rememberNavController()
-        OptionsScreen(navController = rememberNavController())
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewScreen() {
+//    CalculaterTheme {
+//        val navController = rememberNavController()
+//        OptionsScreen(navController = rememberNavController())
+//    }
+//}
