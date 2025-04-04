@@ -50,8 +50,6 @@ fun OptionTemplate(option: String, navController: NavHostController, modifier: M
         "Capacity" -> listOf("ml", "cl", "l", "kl")
         "Weight" -> listOf("mg", "cg", "g", "kg")
         "Temp" -> listOf("C", "F", "K")
-        //"Volume" -> listOf(/*TODO*/)
-        //"Area" -> listOf(/*TODO*/)
         else -> listOf("mm", "cm", "m", "km")
     }
     val inputSelectedMetric = remember { mutableStateOf(metrics[0]) }
@@ -90,9 +88,6 @@ fun calculateConversion() {
                 inputSelectedMetric.value == "K" && outputSelectedMetric.value == "C" -> (inputValue - 273.15).toString()
                 else -> result.toString()
             }
-        }
-        else if (option == "Volume") {
-            "hi"
         }
         else {
             result.toString()
