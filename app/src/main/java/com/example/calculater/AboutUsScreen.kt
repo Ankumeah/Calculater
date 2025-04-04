@@ -67,7 +67,7 @@ fun AboutUsScreen(navController: NavHostController, modifier: Modifier = Modifie
         Column(modifier = Modifier
             .weight(0.9f)
             .fillMaxSize()
-            .padding(top = 20.dp, bottom = 10.dp, start = 10.dp, end = 10.dp)) {
+            .padding(20.dp)) {
             Text(text = "Background -", color = DullGreen, fontSize = 30.sp)
             Spacer(Modifier.height(20.dp))
             Text(text = "BitCal is a small projects made by 2 high school students looking to get into tech and so BitCal was made for educational purposes",
